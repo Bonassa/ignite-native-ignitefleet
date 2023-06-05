@@ -1,11 +1,17 @@
-import { Text, View } from 'react-native';
+import React from 'react';
 
-import { styles } from './styles';
+import { Container, Title, Slogan } from './styles';
+import backgroundImg from '../../assets/background.png';
+import { Button } from '../../components/Button';
 
-export function SignIn() {
+export const SignIn: React.FC = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <Container source={backgroundImg}>
+      <Title>Ignite Fleet</Title>
+
+      <Slogan>Gestão de uso de veículos</Slogan>
+
+      <Button title="Entrar com o Google" />
+    </Container>
   );
-}
+};
