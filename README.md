@@ -30,3 +30,36 @@ Projeto desenvolvido na trilha de react native do programa Ignite da Rocketseat.
 ```
 
 - Criação do arquivo <b>.prettierrc</b> para configuração do prettier.
+
+## Configuração de ambientes
+- Instalação do <b>react-native-dotenv</b>:
+```bash
+  npm i react-native-dotenv --save-dev
+```
+
+- Configuração do <b>babel.config.js</b>:
+```js
+  plugins: [
+    [
+      'module:react-native-dotenv',
+      {
+        moduleName: '@env',
+        allowUndefined: false,
+      },
+    ],
+  ],
+```
+
+- Criação do arquivo <b>.env</b> na raiz do projeto;
+
+- Criação do arquivo <b>env.d.ts</b> na pasta de @types:
+```ts
+  declare module '@env' {
+    export const ANDROID_CLIENT_ID: string;
+    export const IOS_CLIENT_ID: string;
+  }
+```
+
+## OAuth 2.0
+- [Expo Auth Session](https://docs.expo.dev/versions/latest/sdk/auth-session/)
+- [Expo Web Browser](https://docs.expo.dev/versions/latest/sdk/webbrowser/)
