@@ -1,4 +1,5 @@
 import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from '@env';
+import { Realm, useApp } from '@realm/react';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from 'react';
@@ -10,8 +11,10 @@ import { Button } from '../../components/Button';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export const SignIn: React.FC = () => {
+export function SignIn() {
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
+  const app = useApp();
+
   const [, response, googleSignIn] = Google.useAuthRequest({
     androidClientId: ANDROID_CLIENT_ID,
     iosClientId: IOS_CLIENT_ID,
@@ -33,13 +36,12 @@ export const SignIn: React.FC = () => {
       const token = response.authentication?.idToken;
 
       if (token) {
-        console.log('Token -> ', token);
-
-        fetch(
-          `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`
-        )
-          .then(response => response.json())
-          .then(console.log);
+        const credentials = Realm.Credentials.jwt(token);
+        app.logIn(credentials).catch(error => {
+          console.log(error);
+          Alert.alert('Entrar', 'Não foi possível se conectar a sua conta');
+          setIsAuthenticating(false);
+        });
       } else {
         Alert.alert('Entrar', 'Não foi possível se conectar a sua conta');
         setIsAuthenticating(false);
@@ -60,4 +62,4 @@ export const SignIn: React.FC = () => {
       />
     </Container>
   );
-};
+}
