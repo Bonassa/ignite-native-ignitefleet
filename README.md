@@ -63,3 +63,24 @@ Projeto desenvolvido na trilha de react native do programa Ignite da Rocketseat.
 ## OAuth 2.0
 - [Expo Auth Session](https://docs.expo.dev/versions/latest/sdk/auth-session/)
 - [Expo Web Browser](https://docs.expo.dev/versions/latest/sdk/webbrowser/)
+
+## Realm DB
+- Instalação:
+```bash
+  npm install realm
+
+  # On iOS
+  cd ios && pod install && cd ..
+```
+
+- Hooks para facilitar o desenvolvimento com o Realm
+```bash
+  npm install @realm/react
+```
+
+## Icons
+- [Phosphor Icons](https://phosphoricons.com/)
+- [Expo Svg](https://docs.expo.dev/versions/latest/sdk/svg/)
+
+## Imagem
+- Para manter a foto do usuário em cache, foi utilizado o [Expo Image](https://docs.expo.dev/versions/unversioned/sdk/image/?utm_source=google&utm_medium=cpc&utm_content=performancemax&gclid=CjwKCAjwm4ukBhAuEiwA0zQxkzBxrbY24r7ODEAtHunFclBRJ0aeDcLai984m57ebLg7zkm5qkMzEhoC-awQAvD_BwE)
