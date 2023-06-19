@@ -2,9 +2,9 @@
   "name": "ignitefleet",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start --dev-client",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "start": "npx expo start --dev-client",
+    "android": "npx expo run:android",
+    "ios": "npx expo run:ios",
     "web": "expo start --web",
     "android-get-signs": "cd android && ./gradlew signingReport && cd .."
   },
