@@ -15,7 +15,7 @@ export const Label = styled.Text`
 `;
 
 export const Input = styled.TextInput.attrs(({ theme }) => ({
-  placeholderTextColor: theme.COLORS.GRAY_400,
+  placeholderTextColor: theme.COLORS.GRAY_500,
 }))`
   color: ${({ theme }) => theme.COLORS.GRAY_200};
   font-size: ${({ theme }) => theme.FONT_SIZE.XXXL}px;
