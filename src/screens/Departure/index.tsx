@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { useUser } from '@realm/react';
 import { useRef, useState } from 'react';
 import {
   TextInput,
@@ -14,12 +16,19 @@ import { Button } from '../../components/Button';
 import { Header } from '../../components/Header';
 import { LicensePlateInput } from '../../components/LicensePlateInput';
 import { TextAreaInput } from '../../components/TextAreaInput';
+import { useRealm } from '../../libs/realm';
+import { Historic } from '../../libs/realm/schemas/Historic';
 import { licensePlateValidate } from '../../utils/licensePlateValidate';
 
 const keyboardAvoidingViewBehavior =
   Platform.OS === 'android' ? 'height' : 'position';
 
 export const Departure: React.FC = () => {
+  const realm = useRealm();
+  const user = useUser();
+
+  const { goBack } = useNavigation();
+
   const descriptionRef = useRef<TextInput>(null);
   const licensePlateRef = useRef<TextInput>(null);
 
@@ -28,21 +37,49 @@ export const Departure: React.FC = () => {
   const [keyboardOffset, setKeyboardOffset] = useState<number>(0);
   const [descriptionState, setDescriptionState] = useState('');
   const [licensePlateState, setLicensePlateState] = useState('');
+  const [isLoadingRegister, setIsLoadingRegister] = useState(false);
 
   function handleDepartureRegister() {
-    if (!licensePlateValidate(licensePlateState)) {
-      setLicensePlateState('');
-      licensePlateRef.current?.focus();
-      return Alert.alert('Placa Inválida', 'Informe uma placa válida.');
-    }
+    try {
+      if (!licensePlateValidate(licensePlateState)) {
+        setLicensePlateState('');
+        licensePlateRef.current?.focus();
+        return Alert.alert('Placa Inválida', 'Informe uma placa válida.');
+      }
 
-    if (descriptionState.trim().length === 0) {
-      setDescriptionState('');
-      descriptionRef.current?.focus();
-      return Alert.alert(
-        'Finalidade',
-        'Informe a finalidade da utilização do veículo'
+      if (descriptionState.trim().length === 0) {
+        setDescriptionState('');
+        descriptionRef.current?.focus();
+        return Alert.alert(
+          'Finalidade',
+          'Informe a finalidade da utilização do veículo'
+        );
+      }
+
+      setIsLoadingRegister(true);
+
+      console.log('User -> ', user?.id);
+
+      realm.write(() => {
+        realm.create(
+          'Historic',
+          Historic.generate({
+            user_id: user?.id!,
+            license_plate: licensePlateState.toUpperCase(),
+            description: descriptionState,
+          })
+        );
+      });
+
+      Alert.alert('Saída', 'Saída do veículo registrada com sucesso!');
+      goBack();
+    } catch (error) {
+      console.log('ERROR on [handleDepartureRegister] -> ', error);
+      Alert.alert(
+        'Erro ao Registrar Saída',
+        'Não foi possível registrar a saída do veículo'
       );
+      setIsLoadingRegister(false);
     }
   }
 
@@ -78,7 +115,11 @@ export const Departure: React.FC = () => {
               value={descriptionState}
             />
 
-            <Button title="Registrar Saída" onPress={handleDepartureRegister} />
+            <Button
+              title="Registrar Saída"
+              onPress={handleDepartureRegister}
+              isLoading={isLoadingRegister}
+            />
           </Content>
         </ScrollView>
         <View
