@@ -6,14 +6,19 @@ type GenerateProps = {
   license_plate: string;
 };
 
+export enum HistoricStatusEnum {
+  departure = 'departure',
+  arrival = 'arrival',
+}
+
 export class Historic extends Realm.Object<Historic> {
   _id!: string;
   user_id!: string;
   license_plate!: string;
   description!: string;
   status!: string;
-  created_at!: string;
-  updated_at!: string;
+  created_at!: Date;
+  updated_at!: Date;
 
   static generate({ user_id, description, license_plate }: GenerateProps) {
     return {
@@ -21,7 +26,7 @@ export class Historic extends Realm.Object<Historic> {
       user_id,
       license_plate,
       description,
-      status: 'departure',
+      status: HistoricStatusEnum.departure,
       created_at: new Date(),
       updated_at: new Date(),
     };

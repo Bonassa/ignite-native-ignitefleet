@@ -58,8 +58,6 @@ export const Departure: React.FC = () => {
 
       setIsLoadingRegister(true);
 
-      console.log('User -> ', user?.id);
-
       realm.write(() => {
         realm.create(
           'Historic',

@@ -13,7 +13,7 @@ export const CarStatus: React.FC<Props> = ({
   ...rest
 }) => {
   const theme = useTheme();
-  const Icon = licensePlate ? Key : Car;
+  const Icon = licensePlate ? Car : Key;
   const message = licensePlate
     ? `Veículo ${licensePlate} em uso. `
     : 'Nenhum veículo em uso. ';
@@ -27,6 +27,7 @@ export const CarStatus: React.FC<Props> = ({
 
       <Message style={{ textAlignVertical: 'center' }}>
         {message}
+        {'\n'}
 
         <TextHighlight>Clique aqui para registrar a {status}</TextHighlight>
       </Message>
