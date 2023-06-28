@@ -1,5 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { X } from 'phosphor-react-native';
+import { useMemo } from 'react';
 import { Alert } from 'react-native';
 import { BSON } from 'realm';
 
@@ -28,6 +29,12 @@ export const Arrival: React.FC = () => {
 
   const realm = useRealm();
   const vehicleInfo = useObject(Historic, new BSON.UUID(id));
+
+  const pageTitle = useMemo(() => {
+    return vehicleInfo?.status === HistoricStatusEnum.departure
+      ? 'Chegada'
+      : 'Detalhes';
+  }, [vehicleInfo]);
 
   function handleArrivalRegister() {
     try {
@@ -73,7 +80,7 @@ export const Arrival: React.FC = () => {
 
   return (
     <Container>
-      <Header title="Chegada" />
+      <Header title={pageTitle} />
 
       <Content>
         <Label>Placa do veículo</Label>
@@ -81,13 +88,15 @@ export const Arrival: React.FC = () => {
 
         <Label>Finalidade</Label>
         <Description>{vehicleInfo?.description}</Description>
+      </Content>
 
+      {vehicleInfo?.status === HistoricStatusEnum.departure && (
         <Footer>
           <ButtonIcon icon={X} onPress={handleRemoveVehicleUsage} />
 
           <Button title="Registrar Chegada" onPress={handleArrivalRegister} />
         </Footer>
-      </Content>
+      )}
     </Container>
   );
 };

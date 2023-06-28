@@ -22,7 +22,7 @@ export const CarStatus: React.FC<Props> = ({
   return (
     <Container activeOpacity={0.7} {...rest}>
       <IconBox>
-        <Icon size={32} color={theme.COLORS.BRAND_LIGHT} />
+        <Icon size={42} color={theme.COLORS.BRAND_LIGHT} />
       </IconBox>
 
       <Message style={{ textAlignVertical: 'center' }}>

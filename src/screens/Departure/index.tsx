@@ -1,15 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '@realm/react';
 import { useRef, useState } from 'react';
-import {
-  TextInput,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-  View,
-  useWindowDimensions,
-  Alert,
-} from 'react-native';
+import { TextInput, Alert } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Container, Content } from './styles';
 import { Button } from '../../components/Button';
@@ -20,9 +13,6 @@ import { useRealm } from '../../libs/realm';
 import { Historic } from '../../libs/realm/schemas/Historic';
 import { licensePlateValidate } from '../../utils/licensePlateValidate';
 
-const keyboardAvoidingViewBehavior =
-  Platform.OS === 'android' ? 'height' : 'position';
-
 export const Departure: React.FC = () => {
   const realm = useRealm();
   const user = useUser();
@@ -32,9 +22,6 @@ export const Departure: React.FC = () => {
   const descriptionRef = useRef<TextInput>(null);
   const licensePlateRef = useRef<TextInput>(null);
 
-  const { height } = useWindowDimensions();
-
-  const [keyboardOffset, setKeyboardOffset] = useState<number>(0);
   const [descriptionState, setDescriptionState] = useState('');
   const [licensePlateState, setLicensePlateState] = useState('');
   const [isLoadingRegister, setIsLoadingRegister] = useState(false);
@@ -85,47 +72,36 @@ export const Departure: React.FC = () => {
     <Container>
       <Header title="Saída" />
 
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={keyboardAvoidingViewBehavior}
-        keyboardVerticalOffset={keyboardOffset}
-      >
-        <ScrollView alwaysBounceVertical={false}>
-          <Content>
-            <LicensePlateInput
-              ref={licensePlateRef}
-              label="Placa do veículo"
-              placeholder="BRA1234"
-              onSubmitEditing={() => descriptionRef.current?.focus()}
-              returnKeyType="next"
-              onChangeText={setLicensePlateState}
-              value={licensePlateState}
-            />
+      <KeyboardAwareScrollView extraHeight={180} alwaysBounceVertical={false}>
+        <Content>
+          <LicensePlateInput
+            ref={licensePlateRef}
+            label="Placa do veículo"
+            placeholder="BRA1234"
+            onSubmitEditing={() => descriptionRef.current?.focus()}
+            returnKeyType="next"
+            onChangeText={setLicensePlateState}
+            value={licensePlateState}
+          />
 
-            <TextAreaInput
-              ref={descriptionRef}
-              label="Finalidade"
-              placeholder="Vou utilizar esse veículo para..."
-              onSubmitEditing={handleDepartureRegister}
-              returnKeyType="send"
-              blurOnSubmit
-              onChangeText={setDescriptionState}
-              value={descriptionState}
-            />
+          <TextAreaInput
+            ref={descriptionRef}
+            label="Finalidade"
+            placeholder="Vou utilizar esse veículo para..."
+            onSubmitEditing={handleDepartureRegister}
+            returnKeyType="send"
+            blurOnSubmit
+            onChangeText={setDescriptionState}
+            value={descriptionState}
+          />
 
-            <Button
-              title="Registrar Saída"
-              onPress={handleDepartureRegister}
-              isLoading={isLoadingRegister}
-            />
-          </Content>
-        </ScrollView>
-        <View
-          onLayout={({ nativeEvent }) => {
-            setKeyboardOffset(nativeEvent.layout.y - height);
-          }}
-        />
-      </KeyboardAvoidingView>
+          <Button
+            title="Registrar Saída"
+            onPress={handleDepartureRegister}
+            isLoading={isLoadingRegister}
+          />
+        </Content>
+      </KeyboardAwareScrollView>
     </Container>
   );
 };
