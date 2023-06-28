@@ -5,5 +5,14 @@
   "semi": true,
   "bracketSpacing": true,
   "bracketSameLine": false,
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+
+  "importOrder": [
+    "^(react$)|^(react-native$)",
+    "<THIRD_PARTY_MODULES>",
+    "^(@components/(.*)$)|^(.*)$/components/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
