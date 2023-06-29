@@ -41,3 +41,12 @@ export const Footer = styled.View`
   margin-top: 32px;
   padding: 32px;
 `;
+
+export const NotSyncMessage = styled.Text`
+  color: ${({ theme }) => theme.COLORS.GRAY_300};
+  font-size: ${({ theme }) => theme.FONT_SIZE.SM}px;
+  font-family: ${({ theme }) => theme.FONT_FAMILY.REGULAR};
+
+  text-align: center;
+  padding: 32px;
+`;

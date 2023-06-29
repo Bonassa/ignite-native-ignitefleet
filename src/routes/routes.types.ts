@@ -6,4 +6,5 @@ export enum AppRoutesNamesEnum {
 
 export type ArrivalRouteParams = {
   id: string;
+  isSync?: boolean;
 };
