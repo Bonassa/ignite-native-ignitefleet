@@ -11,6 +11,7 @@ import {
   Footer,
   Label,
   LicensePlate,
+  NotSyncMessage,
 } from './styles';
 import { Button } from '../../components/Button';
 import { ButtonIcon } from '../../components/ButtonIcon';
@@ -25,7 +26,7 @@ import { ArrivalRouteParams } from '../../routes/routes.types';
 export const Arrival: React.FC = () => {
   const { goBack } = useNavigation();
   const { params } = useRoute();
-  const { id } = params as ArrivalRouteParams;
+  const { id, isSync } = params as ArrivalRouteParams;
 
   const realm = useRealm();
   const vehicleInfo = useObject(Historic, new BSON.UUID(id));
@@ -96,6 +97,12 @@ export const Arrival: React.FC = () => {
 
           <Button title="Registrar Chegada" onPress={handleArrivalRegister} />
         </Footer>
+      )}
+
+      {vehicleInfo?.status === HistoricStatusEnum.arrival && !isSync && (
+        <NotSyncMessage>
+          Este registro ainda não foi sincronizado
+        </NotSyncMessage>
       )}
     </Container>
   );

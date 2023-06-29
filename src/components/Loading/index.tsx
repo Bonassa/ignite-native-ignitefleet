@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Container, LoadIndicator } from './styles';
 
-export const Loading: React.FC = () => {
+export function Loading() {
   return (
     <Container>
       <LoadIndicator />
     </Container>
   );
-};
+}
