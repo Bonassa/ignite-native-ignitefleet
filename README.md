@@ -17,6 +17,8 @@ Projeto desenvolvido na trilha de react native do programa Ignite da Rocketseat.
 - Instalação das ferramentas e tipagens:
 ```bash
   npm i eslint prettier @typescript-eslint/eslint-plugin @typescript-eslint/parser --save-dev
+
+  npm install --save-dev eslint-plugin-import
 ```
 
 - Atualização no <b>package.json</b>:
