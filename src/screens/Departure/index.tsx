@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useUser } from '@realm/react';
 import {
   LocationAccuracy,
+  LocationObjectCoords,
   LocationSubscription,
   useForegroundPermissions,
   watchPositionAsync,
@@ -17,6 +18,7 @@ import { Header } from '../../components/Header';
 import { LicensePlateInput } from '../../components/LicensePlateInput';
 import { LoadIndicator } from '../../components/Loading/styles';
 import { LocationInfo } from '../../components/LocationInfo';
+import { Map } from '../../components/Map';
 import { TextAreaInput } from '../../components/TextAreaInput';
 import { useRealm } from '../../libs/realm';
 import { Historic } from '../../libs/realm/schemas/Historic';
@@ -40,6 +42,8 @@ export const Departure: React.FC = () => {
   const [currentAddress, setCurrentAddress] = useState<string | null>(null);
   const [isLoadingRegister, setIsLoadingRegister] = useState(false);
   const [isLoadingLocation, setIsLoadingLocation] = useState(true);
+  const [currentCoords, setCurrentCoords] =
+    useState<LocationObjectCoords | null>(null);
 
   function handleDepartureRegister() {
     try {
@@ -100,6 +104,8 @@ export const Departure: React.FC = () => {
         timeInterval: 1000,
       },
       location => {
+        setCurrentCoords(location.coords);
+
         getAddressLocation(location.coords)
           .then(address => address && setCurrentAddress(address))
           .finally(() => setIsLoadingLocation(false));
@@ -142,6 +148,8 @@ export const Departure: React.FC = () => {
       <Header title="Saída" />
 
       <KeyboardAwareScrollView extraHeight={180} alwaysBounceVertical={false}>
+        {currentCoords && <Map coordinates={[currentCoords]} />}
+
         <Content>
           {currentAddress && (
             <LocationInfo
