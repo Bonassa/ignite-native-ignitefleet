@@ -84,7 +84,10 @@ export const Home: React.FC = () => {
   }
 
   function handleHistoricDetails(id: string, isSync: boolean) {
-    navigation.navigate(AppRoutesNamesEnum.arrival, { id, isSync });
+    navigation.navigate(AppRoutesNamesEnum.arrival, {
+      id,
+      isSync,
+    });
   }
 
   async function progressNotification(
